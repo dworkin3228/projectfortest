@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   # 'contact_form.apps.ContactFormConfig',
+    'contact_form.apps.ContactFormConfig',
+  #  'contact_form',
     'users',
     ]
 
