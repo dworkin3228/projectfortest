@@ -1,13 +1,21 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from .forms import SignUpForm
 
+
 # Создаем здесь представления.
+#user = User.objects.get()
+def is_member(user):
+    return user.groups.filter(name='Manager').exists()
+
 
 def home(request):
-    return render(request, "users/home.html")
+    if is_member(request.user):
+        return render(request, "users/fortest.html")
+    else:
+        return render(request, "users/home.html")
 
 
 class SignUp(CreateView):
