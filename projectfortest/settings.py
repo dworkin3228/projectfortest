@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #  'contact_form.apps.ContactFormConfig',
-    'contact_form',
+    'contact_form.apps.ContactFormConfig',
+    #'contact_form',
     'users',
 ]
 
@@ -131,3 +131,12 @@ EMAIL_HOST_USER = "testingdjangosendmail@mail.ru"
 EMAIL_HOST_PASSWORD = "h67SEZWfbvXksRC5EUDu"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+import os.path
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
