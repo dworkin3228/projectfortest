@@ -5,7 +5,8 @@ from contact_form.models import *
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        fields = ["subject", 'message']
+        exclude = ('id', 'name', 'email', 'filelink', 'created')
+        #fields = ["subject", 'message']
         widgets = {
             'subject': forms.TextInput(attrs={'class': 'form-input'}),
             'message': forms.Textarea(attrs={'cols': 60, 'rows': 10})
