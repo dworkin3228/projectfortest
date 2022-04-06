@@ -17,7 +17,7 @@ def contactview(request):
         if form.is_valid():
             new_ticket = form.save(commit=False)
             new_ticket.name = request.user
-            #new_ticket.email = request
+            #new_ticket.email = request.user.email
             subject = form.cleaned_data['subject']
             message = form.cleaned_data['message']
             new_ticket.save()
