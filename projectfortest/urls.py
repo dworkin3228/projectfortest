@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns, static
 from django.urls import path, include
-
 from projectfortest import settings
 
 urlpatterns = [
@@ -25,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('home/', include('users.urls')),
     path('contact_form/', include('contact_form.urls')),
+    path('ticket_view/', include('ticket_view.urls'))
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

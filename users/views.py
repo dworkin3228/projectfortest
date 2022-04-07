@@ -5,15 +5,11 @@ from django.contrib.auth.models import Group, User
 from .forms import SignUpForm
 
 
-# Создаем здесь представления.
-#user = User.objects.get()
-def is_member(user):
-    return user.groups.filter(name='Manager').exists()
-
-
 def home(request):
-    if is_member(request.user):
+    if is_manager(request.user):
         return render(request, "users/fortest.html")
+    elif is_member(request.user):
+        return redirect('contact_form')
     else:
         return render(request, "users/home.html")
 
@@ -34,3 +30,11 @@ class SignUp(CreateView):
             return redirect('login')
         else:
             return render(request, self.template_name, {'form': form})
+
+
+def is_manager(user):
+    return user.groups.filter(name='Managers').exists()
+
+
+def is_member(user):
+    return user.groups.filter(name='Members').exists()
