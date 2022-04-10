@@ -22,9 +22,9 @@ from projectfortest import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('home/', include('users.urls')),
+    path('', include('users.urls')),
     path('contact_form/', include('contact_form.urls')),
-    path('ticket_view/', include('ticket_view.urls'))
+    path('tickets_view/', include('tickets_view.urls'))
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

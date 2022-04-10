@@ -11,6 +11,7 @@ class Contact(models.Model):
     created = models.DateTimeField()
     replied = models.BooleanField(default=False)
     user = models.CharField(max_length=200, blank=False)
+    moderatorreply = models.TextField(max_length=1000, null=True)
 
     def __str__(self):
         # Будет отображаться следующее поле в панели администрирования

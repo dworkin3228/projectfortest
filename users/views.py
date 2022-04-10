@@ -6,12 +6,7 @@ from .forms import SignUpForm
 
 
 def home(request):
-    if is_manager(request.user):
-        return render(request, "users/fortest.html")
-    elif is_member(request.user):
-        return redirect('contact_form')
-    else:
-        return render(request, "users/home.html")
+    return render(request, "users/home.html")
 
 
 class SignUp(CreateView):

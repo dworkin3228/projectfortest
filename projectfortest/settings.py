@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'contact_form.apps.ContactFormConfig',
-    'ticket_view',
+    'tickets_view',
     'users',
 ]
 

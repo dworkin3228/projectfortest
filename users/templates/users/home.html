@@ -22,6 +22,11 @@
           <a href="{% url 'login' %}">Login</a>
       {% endif %}
   </div>
+<div>
+   {% if user.is_authenticated %}
+          <a href="{% url 'tickets_view' %}">All tickets</a>
 
+      {% endif %}
+</div>
   </body>
 </html>
