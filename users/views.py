@@ -25,11 +25,3 @@ class SignUp(CreateView):
             return redirect('login')
         else:
             return render(request, self.template_name, {'form': form})
-
-
-def is_manager(user):
-    return user.groups.filter(name='Managers').exists()
-
-
-def is_member(user):
-    return user.groups.filter(name='Members').exists()

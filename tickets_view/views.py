@@ -1,22 +1,23 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from tickets_view.forms import *
-from users.views import is_member, is_manager
 
 
+@login_required()
 def ticketsview(request):
     if request.method == 'GET':
         if is_manager(request.user):
             tickets = Contact.objects.all()
             return render(request, "tickets_view/tickets_view.html", {'tickets': tickets})
-        elif is_member(request.user):
+        else:
             tickets = Contact.objects.filter(user=request.user)
             return render(request, "tickets_view/tickets_view.html", {'tickets': tickets})
 
 
+@login_required()
 def ticketview(request, id):
     if is_manager(request.user):
-        manager = True
         if request.method == 'GET':
             ticket = Contact.objects.filter(id=id).last()
             form = TicketForm(initial={'moderatorreply': ticket.moderatorreply})
@@ -30,13 +31,12 @@ def ticketview(request, id):
                 ticket.moderatorreply = ticketupdate.moderatorreply
                 ticket.replied = True
                 ticket.save()
-        return render(request, 'tickets_view/ticket_view.html', {'ticket': ticket, 'form': form, 'manager': manager})
-
-    if is_member(request.user):
-        manager = False
+        return render(request, 'tickets_view/ticket_view.html', {'ticket': ticket, 'form': form, 'manager': True})
+    else:
         if request.method == 'GET':
             ticket = Contact.objects.filter(id=id).last()
-            return render(request, 'tickets_view/ticket_view.html', {'ticket': ticket, 'manager': manager})
+            return render(request, 'tickets_view/ticket_view.html', {'ticket': ticket, 'manager': False})
 
 
-
+def is_manager(user):
+    return user.groups.filter(name='Managers').exists()
