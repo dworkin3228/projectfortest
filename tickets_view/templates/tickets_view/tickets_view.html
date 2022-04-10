@@ -11,6 +11,9 @@
 {% endfor %}
 
 {% if user.is_authenticated %}
+        {% if manager == False %}
+        <a href="{% url 'contact_form' %}">Создать новую заявку</a><br>
+{% endif %}
           <a href="{% url 'home' %}">На главную</a>
 
       {% endif %}

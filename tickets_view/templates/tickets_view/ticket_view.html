@@ -12,7 +12,7 @@
 <br><br><br>
 <dev>
 	{% if manager == False %}
-{% if ticket.moderatorreply == '' %}
+{% if ticket.moderatorreply == None %}
 Ожидаем ответ от менеджера
 {% else %}
 Ответ модератора: {{ticket.moderatorreply}}
@@ -28,13 +28,15 @@
 	  {{ form.moderatorreply.errors }}
 	  {{ form.moderatorreply }}
 	</div>
+
 	<div>
 		<input type="submit" value="Отправить"/>
 	</div>
 
 </form>
+
 {% endif %}
-	<div>
+	<div><br><br><br>
           <a href="/tickets_view/">All tickets</a>
 	</div>
 </body>

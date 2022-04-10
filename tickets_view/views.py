@@ -9,10 +9,10 @@ def ticketsview(request):
     if request.method == 'GET':
         if is_manager(request.user):
             tickets = Contact.objects.all()
-            return render(request, "tickets_view/tickets_view.html", {'tickets': tickets})
+            return render(request, "tickets_view/tickets_view.html", {'tickets': tickets, 'manager': True})
         else:
             tickets = Contact.objects.filter(user=request.user)
-            return render(request, "tickets_view/tickets_view.html", {'tickets': tickets})
+            return render(request, "tickets_view/tickets_view.html", {'tickets': tickets, 'manager': False})
 
 
 @login_required()
