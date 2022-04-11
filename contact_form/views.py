@@ -9,7 +9,7 @@ import asyncio
 
 
 @login_required()
-def contactview(request):
+def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST, request.FILES)
         # Если форма заполнена корректно, сохраняем все введённые пользователем значения
@@ -37,7 +37,7 @@ def contactview(request):
 
 
 @login_required()
-def succesview(request):
+def success_view():
     return HttpResponse('Заявка успешно отправлена.')
 
 

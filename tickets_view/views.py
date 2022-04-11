@@ -4,7 +4,7 @@ from tickets_view.forms import *
 
 
 @login_required()
-def ticketsview(request):
+def tickets_view(request):
     if request.method == 'GET':
         if is_manager(request.user):
             tickets = Contact.objects.all()
@@ -15,7 +15,7 @@ def ticketsview(request):
 
 
 @login_required()
-def ticketview(request, id):
+def ticket_view(request, id):
     if is_manager(request.user):
         if request.method == 'GET':
             ticket = Contact.objects.filter(id=id).last()
