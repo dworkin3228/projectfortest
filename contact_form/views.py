@@ -7,7 +7,6 @@ from django.http import HttpResponse
 from projectfortest import settings
 import asyncio
 
-
 @login_required()
 def contact_view(request):
     if request.method == 'POST':
@@ -37,7 +36,7 @@ def contact_view(request):
 
 
 @login_required()
-def success_view():
+def success_view(request):
     return HttpResponse('Заявка успешно отправлена.')
 
 

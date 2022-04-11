@@ -20,7 +20,6 @@ def ticket_view(request, id):
         if request.method == 'GET':
             ticket = Contact.objects.filter(id=id).last()
             form = TicketForm(initial={'manager_reply': ticket.manager_reply})
-            print(ticket.manager_reply)
         else:
             form = TicketForm(request.POST)
             ticket = Contact.objects.filter(id=id).last()
