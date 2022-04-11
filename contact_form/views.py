@@ -1,20 +1,12 @@
 from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.context_processors import auth
-# from django_registration.forms import User
-from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from .forms import ContactForm, Contact
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from projectfortest import settings
 import asyncio
-from asgiref.sync import sync_to_async, async_to_sync
-from time import sleep
-
-#queue = asyncio.Queue()
-
+from asgiref.sync import async_to_sync
 
 @login_required()
 def contactview(request):
@@ -34,13 +26,9 @@ def contactview(request):
             if contact is None or (datetime.now() - contact.created).days > 0:
                 new_ticket.save()
                 contact = Contact.objects.filter(user=request.user).last()
-                queue = asyncio.Queue()
-                asyncio.run(queue.put(contact))
-                asyncio.run(main(queue))
+                asyncio.run(send_control(contact))
                 return redirect('success')
             return HttpResponse('Вы уже оставляли заявку за последние сутки, попробуйте позже')
-
-
     else:
         # Заполняем форму
         form = ContactForm()
@@ -71,10 +59,14 @@ async def index(queue):
     tasks = []
     task = asyncio.create_task(sendmail(queue))
     tasks.append(task)
+    await asyncio.sleep(10)
     await queue.join()
     for task in tasks:
         task.cancel()
     await asyncio.gather(*tasks, return_exceptions=True)
 
 
-
+async def send_control(contact):
+    queue = asyncio.Queue()
+    await queue.put(contact)
+    await index(queue)
