@@ -38,7 +38,7 @@ def contactview(request):
 
 @login_required()
 def succesview(request):
-    return HttpResponse('Success! Thank you for your message.')
+    return HttpResponse('Заявка успешно отправлена.')
 
 
 async def sendmail(ticket):
