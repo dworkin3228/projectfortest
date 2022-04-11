@@ -4,7 +4,6 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.models import Group
 from .forms import SignUpForm
 
-# Создаем здесь представления.
 
 def home(request):
     return render(request, "users/home.html")

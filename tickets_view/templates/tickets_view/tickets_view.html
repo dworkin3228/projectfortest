@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>All tickets</title>
+</head>
+<body>
+{% for ticket in tickets %}
+<a href="/tickets_view/ticket_view/{{ ticket.id }}">id: {{ ticket.id }}</a> Тема: {{ ticket.subject }}
+Имя клиента: {{ ticket.name }} Созадно: {{ ticket.created }} <br>
+{% endfor %}
+
+{% if user.is_authenticated %}
+        {% if manager == False %}
+        <a href="{% url 'contact_form' %}">Создать новую заявку</a><br>
+{% endif %}
+          <a href="{% url 'home' %}">На главную</a>
+
+      {% endif %}
+</body>
+</html>
