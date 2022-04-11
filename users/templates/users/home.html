@@ -10,9 +10,9 @@
   </head>
   <body>
 
-    <h1>Hello, {{ user.username|default:'Guest' }}</h1>
+    <h1>Здравствуйте, {{ user.username|default:'Гость' }}</h1>
 
-    <p> Welcome to the Our site</p>
+    <p> Добро пожаловать на наш сайт</p>
     <div>
       {% if user.is_authenticated %}
           <a href="{% url 'logout' %}">Выйти</a>
