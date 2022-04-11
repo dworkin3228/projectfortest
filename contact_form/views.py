@@ -43,6 +43,10 @@ def succesview(request):
 
 async def sendmail(ticket):
     try:
-        send_mail('New ticket: ' + ticket.subject, ticket.message, settings.EMAIL_HOST_USER, ['xah3000@gmail.com'])
+        send_mail(
+            'New ticket: ' + ticket.subject,
+            ticket.message,
+            settings.EMAIL_HOST_USER,
+            ['manager.djangoproject@gmail.com'])
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
