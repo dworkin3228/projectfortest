@@ -6,7 +6,7 @@ from .forms import ContactForm, Contact
 from django.http import HttpResponse
 from projectfortest import settings
 import asyncio
-from asgiref.sync import async_to_sync
+
 
 @login_required()
 def contactview(request):
@@ -25,8 +25,8 @@ def contactview(request):
             contact = Contact.objects.filter(user=request.user).last()
             if contact is None or (datetime.now() - contact.created).days > 0:
                 new_ticket.save()
-                contact = Contact.objects.filter(user=request.user).last()
-                asyncio.run(send_control(contact))
+                ticket = Contact.objects.filter(user=request.user).last()
+                asyncio.run(sendmail(ticket))
                 return redirect('success')
             return HttpResponse('Вы уже оставляли заявку за последние сутки, попробуйте позже')
     else:
@@ -41,32 +41,8 @@ def succesview(request):
     return HttpResponse('Success! Thank you for your message.')
 
 
-async def main(queue):
-    await index(queue)
-    await asyncio.sleep(10)
-
-
-async def sendmail(ticket_queue):
-    ticket = await ticket_queue.get()
+async def sendmail(ticket):
     try:
         send_mail('New ticket: ' + ticket.subject, ticket.message, settings.EMAIL_HOST_USER, ['xah3000@gmail.com'])
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
-    ticket_queue.task_done()
-
-
-async def index(queue):
-    tasks = []
-    task = asyncio.create_task(sendmail(queue))
-    tasks.append(task)
-    await asyncio.sleep(10)
-    await queue.join()
-    for task in tasks:
-        task.cancel()
-    await asyncio.gather(*tasks, return_exceptions=True)
-
-
-async def send_control(contact):
-    queue = asyncio.Queue()
-    await queue.put(contact)
-    await index(queue)
