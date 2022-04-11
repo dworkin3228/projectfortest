@@ -13,6 +13,8 @@ import asyncio
 from asgiref.sync import sync_to_async, async_to_sync
 from time import sleep
 
+#queue = asyncio.Queue()
+
 
 @login_required()
 def contactview(request):
@@ -31,7 +33,10 @@ def contactview(request):
             contact = Contact.objects.filter(user=request.user).last()
             if contact is None or (datetime.now() - contact.created).days > 0:
                 new_ticket.save()
-                asyncio.run(index(request.user))
+                contact = Contact.objects.filter(user=request.user).last()
+                queue = asyncio.Queue()
+                asyncio.run(queue.put(contact))
+                asyncio.run(main(queue))
                 return redirect('success')
             return HttpResponse('Вы уже оставляли заявку за последние сутки, попробуйте позже')
 
@@ -48,21 +53,28 @@ def succesview(request):
     return HttpResponse('Success! Thank you for your message.')
 
 
-@sync_to_async()
-def sendmail(ticket):
+async def main(queue):
+    await index(queue)
+    await asyncio.sleep(10)
+
+
+async def sendmail(ticket_queue):
+    ticket = await ticket_queue.get()
     try:
         send_mail('New ticket: ' + ticket.subject, ticket.message, settings.EMAIL_HOST_USER, ['xah3000@gmail.com'])
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
+    ticket_queue.task_done()
 
 
-@sync_to_async()
-def construct_email(user):
-    ticket = Contact.objects.filter(user=user).last()
-    return ticket
+async def index(queue):
+    tasks = []
+    task = asyncio.create_task(sendmail(queue))
+    tasks.append(task)
+    await queue.join()
+    for task in tasks:
+        task.cancel()
+    await asyncio.gather(*tasks, return_exceptions=True)
 
 
-async def index(user):
-    ticket = await construct_email(user)
-    await sendmail(ticket)
-    return
+
