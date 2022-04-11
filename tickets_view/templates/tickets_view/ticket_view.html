@@ -12,10 +12,10 @@
 <br><br><br>
 <dev>
 	{% if manager == False %}
-{% if ticket.moderatorreply == None %}
+{% if ticket.manager_reply == None %}
 Ожидаем ответ от менеджера
 {% else %}
-Ответ модератора: {{ticket.moderatorreply}}
+Ответ модератора: {{ticket.manager_reply}}
 {% endif %}
 	{% endif %}
 	</dev>
@@ -24,9 +24,9 @@
 	{% csrf_token %}
     {{ form.non_field_errors }}
     <div>
-	  <label for="id_moderatorreply">Ответ:</label>
-	  {{ form.moderatorreply.errors }}
-	  {{ form.moderatorreply }}
+	  <label for="id_manager_reply">Ответ:</label>
+	  {{ form.manager_reply.errors }}
+	  {{ form.manager_reply }}
 	</div>
 
 	<div>
@@ -37,7 +37,7 @@
 
 {% endif %}
 	<div><br><br><br>
-          <a href="/tickets_view/">All tickets</a>
+          <a href="/tickets_view/">Все заявки</a>
 	</div>
 </body>
 </html>
