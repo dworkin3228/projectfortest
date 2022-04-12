@@ -7,8 +7,15 @@
 </head>
 <body>
 <h1>Тема: {{ ticket.subject }}</h1>
-    Имя клиента: {{ ticket.name }}<br> Сообщение: {{ ticket.message }}<br> Почта клиента: {{ ticket.email }}<br>
-Ссылка на файл: <a href="{{ ticket.fileupload.url }}">{{ ticket.fileupload }}</a><br>Созадно: {{ ticket.created }}
+Имя клиента: {{ ticket.name }}<br>
+Сообщение: {{ ticket.message }}<br>
+Почта клиента: {{ ticket.email }}<br>
+{% if ticket.ticket.fileupload != None %}
+Ссылка на файл:
+<a href="{{ ticket.fileupload.url }}">{{ ticket.fileupload }}</a>
+<br>
+{% endif %}
+Созадно: {{ ticket.created }}
 <br><br><br>
 <dev>
 	{% if manager == False %}
