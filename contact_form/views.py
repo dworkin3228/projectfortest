@@ -17,7 +17,8 @@ def contact_view(request):
             new_ticket.user = request.user
             new_ticket.name = request.user.first_name + ' ' + request.user.last_name
             new_ticket.email = request.user.email
-            new_ticket.fileupload = request.FILES['fileupload']
+            new_ticket.fileupload = form.cleaned_data['fileupload']
+            #new_ticket.fileupload = request.FILES['fileupload']
             new_ticket.subject = form.cleaned_data['subject']
             new_ticket.message = form.cleaned_data['message']
             new_ticket.created = datetime.now()
