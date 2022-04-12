@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -135,8 +135,8 @@ LOGOUT_REDIRECT_URL = "login"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = "testingdjangosendmail@mail.ru"
-EMAIL_HOST_PASSWORD = "h67SEZWfbvXksRC5EUDu"
+EMAIL_HOST_USER = "projectfortest@mail.ru"
+EMAIL_HOST_PASSWORD = "MGvH15wHGJ3rD6F2Gbz9"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 

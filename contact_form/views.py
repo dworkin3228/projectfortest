@@ -6,6 +6,8 @@ from .forms import ContactForm, Contact
 from django.http import HttpResponse
 from projectfortest import settings
 import asyncio
+from django.contrib.auth.models import User
+
 
 @login_required()
 def contact_view(request):
@@ -18,15 +20,15 @@ def contact_view(request):
             new_ticket.name = request.user.first_name + ' ' + request.user.last_name
             new_ticket.email = request.user.email
             new_ticket.fileupload = form.cleaned_data['fileupload']
-            #new_ticket.fileupload = request.FILES['fileupload']
             new_ticket.subject = form.cleaned_data['subject']
             new_ticket.message = form.cleaned_data['message']
             new_ticket.created = datetime.now()
             contact = Contact.objects.filter(user=request.user).last()
             if contact is None or (datetime.now() - contact.created).days > 0:
                 new_ticket.save()
+                manager = User.objects.filter(username='Manager').last()
                 ticket = Contact.objects.filter(user=request.user).last()
-                asyncio.run(sendmail(ticket))
+                asyncio.run(sendmail(ticket, manager.email))
                 return redirect('success')
             return HttpResponse('Вы уже оставляли заявку за последние сутки, попробуйте позже')
     else:
@@ -38,15 +40,15 @@ def contact_view(request):
 
 @login_required()
 def success_view(request):
-    return HttpResponse('Заявка успешно отправлена.')
+    return render(request, 'contact_form/success.html')
 
 
-async def sendmail(ticket):
+async def sendmail(ticket, manager_email):
     try:
         send_mail(
             'New ticket: ' + ticket.subject,
             ticket.message,
             settings.EMAIL_HOST_USER,
-            ['manager.djangoproject@gmail.com'])
+            [manager_email])
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
