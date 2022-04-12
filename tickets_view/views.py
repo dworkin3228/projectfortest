@@ -20,7 +20,6 @@ def ticket_view(request, id):
         if request.method == 'GET':
             ticket = Contact.objects.filter(id=id).last()
             form = TicketForm(initial={'manager_reply': ticket.manager_reply})
-            print(ticket.manager_reply)
         else:
             form = TicketForm(request.POST)
             ticket = Contact.objects.filter(id=id).last()
@@ -30,6 +29,7 @@ def ticket_view(request, id):
                 ticket.manager_reply = ticketupdate.manager_reply
                 ticket.replied = True
                 ticket.save()
+                return render(request, 'tickets_view/success.html')
         return render(request, 'tickets_view/ticket_view.html', {'ticket': ticket, 'form': form, 'manager': True})
     else:
         if request.method == 'GET':

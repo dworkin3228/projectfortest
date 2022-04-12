@@ -1,2 +1,6 @@
 /media/
 /.idea/
+install.bat
+python-installer.exe
+RefreshEnv.cmd
+start.bat

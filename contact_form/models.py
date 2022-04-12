@@ -7,7 +7,7 @@ class Contact(models.Model):
     message = models.TextField(max_length=1000)
     name = models.CharField(max_length=200)
     email = models.EmailField()
-    fileupload = models.FileField(upload_to='uploads/')
+    fileupload = models.FileField(upload_to='uploads/', null=True, blank=True)
     created = models.DateTimeField()
     replied = models.BooleanField(default=False)
     user = models.CharField(max_length=200, blank=False)
